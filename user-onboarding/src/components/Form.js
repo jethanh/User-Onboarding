@@ -1,4 +1,4 @@
-import App from '../App'
+import App from '../App';
 import axios from "axios";
 import * as yup from "yup";
 import React, {useState, useEffect } from "react";
@@ -7,8 +7,9 @@ const formSchema = yup.object().shape({
     name: yup.string().required("Required"),
     email: yup.string().email("Must be a valid email")
     .required("Required"),
-    password: yup.string().min(8, "ez password, longer plz").required(),
-    terms: yup.boolean().oneOf([true], "plz agree"),
+    password: yup.string().required("Required").min(8, "ez password, longer plz"),
+    terms: yup.boolean(),
+    mail: yup.boolean()
 });
 
 function Form() {
@@ -18,6 +19,8 @@ function Form() {
         email: "",
         password: "",
         terms: "",
+        mail: true
+    
     });
 
     const [errors, setErrors] = useState ({
@@ -47,6 +50,7 @@ function Form() {
                     email: "",
                     password: "",
                     terms: "",
+                    mail: false
                 });
             })
             .catch(error => console.log(error.response));
@@ -56,7 +60,6 @@ function Form() {
         yup
         .reach(formSchema, e.target.name)
         .validate(e.target.name === "terms" ? e.target.checked : e.target.value)
-
         .then(valid => {
             setErrors({
                 ...errors,
@@ -116,8 +119,9 @@ function Form() {
                 />
                 {errors.password.length > 0 ? <p>{errors.password}</p> : null}
             </label>
-            <label htmlFor="terms">
+            <label className="terms" htmlFor="terms">
                 <input
+                    className="terms"
                     type="checkbox"
                     name="terms"
                     checked={formState.terms}
@@ -125,8 +129,19 @@ function Form() {
                 />
                 Terms & Conditions
             </label>
+            {errors.terms.length > 0 ? <p>{errors.terms}</p> : null}
+            <label className="terms" htmlFor="mail">
+                <input
+                    className="terms"
+                    type="checkbox"
+                    name="mail"
+                    checked={formState.mail}
+                    onChange={inputChange}
+                />
+                Sign Up For Mailing List
+            </label>
             { }
-            <pre>{JSON.stringify(post.name, null, 2)}</pre>
+            <pre>{JSON.stringify(post, null, 2)}</pre>
             <button disabled={buttonDisabled}>Submit</button>
         </form>
         </div>

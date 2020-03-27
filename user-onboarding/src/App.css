@@ -47,9 +47,14 @@ form {
 input {
   padding-bottom: 10px;
   margin-bottom: 5px;
-  align-items: center;
+ 
   display: flex;
   flex-direction: column;
+}
+.terms{
+  flex-direction: row;
+  display: flex;
+  font-size: 12px;
 }
 
 p {
